@@ -103,6 +103,9 @@ int main(){
                     }
                 }
                 break;
+            case 'q':
+                return 0;
+                break;
             default:
                 printf("help\nw - write [FirstName] [SecondName] [PhoneNumber] ...\nd - delene [ID]\nl - list all\ns - search [param]\nq - quit\n");
                 break;
