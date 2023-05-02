@@ -22,6 +22,8 @@ struct command
     book bk;
 }typedef command;
 
+//test
+
 char GetCmd(command* cmd){
     int i = 0;
     char* ptr = (char*)cmd;
