@@ -5,7 +5,6 @@ HEADERS := main.h
 .PHONY: clean
 
 all: $(BIN) 
-		./$(BIN)
 
 $(BIN): $(SOURCES)
 		gcc $(SOURCES) -o $(BIN)
