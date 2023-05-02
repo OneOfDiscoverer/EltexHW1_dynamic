@@ -1,3 +1,6 @@
+#ifndef _MAIN_H
+#define _MAIN_H
+
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -21,3 +24,5 @@ struct command
     char param1[STR_LEN];
     book bk;  
 }typedef command;
+
+#endif
