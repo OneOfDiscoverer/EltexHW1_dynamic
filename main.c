@@ -18,7 +18,7 @@ struct command
 {
     char param0[STR_LEN];
     char param1[STR_LEN];
-    book bk;
+    book bk;  
 }typedef command;
 
 char GetCmd(command* cmd){
