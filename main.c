@@ -1,5 +1,4 @@
-#include "stdio.h"
-#include "stdlib.h"
+#include "main.h"
 
 //для изменения количества полей необходимо менять структуру book и вывод в функции PrintUser.
 //Длина книги и длина строки в структуре изменяется макросами ниже.
@@ -21,8 +20,6 @@ struct command
     char param1[STR_LEN];
     book bk;
 }typedef command;
-
-//test
 
 char GetCmd(command* cmd){
     int i = 0;
