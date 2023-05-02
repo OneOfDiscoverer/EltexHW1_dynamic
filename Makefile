@@ -1,6 +1,9 @@
 BIN := main
 SOURCES := main.c
 HEADERS := main.h
+CFLAGS := 
+LDFLAGS :=
+
 
 CC := gcc
 
@@ -9,7 +12,7 @@ CC := gcc
 all: $(BIN) 
 
 $(BIN): $(SOURCES)
-		$(CC) $(SOURCES) -o $(BIN)
+		$(CC) $(SOURCES) -o $(BIN) $(CFLAGS) $(LDFLAGS)
 $(BIN): $(HEADERS)
 
 clean:
