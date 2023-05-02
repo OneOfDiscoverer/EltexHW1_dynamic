@@ -88,6 +88,8 @@ int main(){
                     if(tmp < BOOK_LEN) 
                         unitClear(&phonebook[tmp]);
                 }
+                else 
+                    printf("out of range\n");
                 break;
             case 'l':
                 for(int i = 0; i < BOOK_LEN; i++){
