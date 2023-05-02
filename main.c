@@ -1,21 +1,6 @@
 #include "main.h"
 
-struct book 
-{
-    char firstName[STR_LEN];
-    char secondName[STR_LEN];
-    char phoneNumber[STR_LEN];
-    char address[STR_LEN];
-}typedef book;
- 
-struct command
-{
-    char param0[STR_LEN];
-    char param1[STR_LEN];
-    book bk;  
-}typedef command;
-
-char GetCmd(command* cmd){
+char getCmd(command* cmd){
     int i = 0;
     char* ptr = (char*)cmd;
     while((i < STR_LEN) && ((ptr + i) < ((char*)cmd + sizeof(command)))){
@@ -33,17 +18,17 @@ char GetCmd(command* cmd){
     return *(char*)cmd; 
 }
 
-void PrintUser(book *pb, int num){
+void printUser(book *pb, int num){
     printf("ID: %d\nFn: %s \nSn: %s\nPh: %s\nAd: %s\n\n", num, pb[num].firstName, pb[num].secondName, pb[num].phoneNumber, pb[num].address);
 }
 
-void CmdClear(command* cmd){
+void cmdClear(command* cmd){
     for(int i = 0; i < sizeof(command); i++){
         *((char*)cmd + i) = 0;
     }
 }
 
-void UnitClear(book *pb){
+void unitClear(book *pb){
     for(int i = 0; i < sizeof(book); i++){
         *((char*)pb + i) = 0;
     }
@@ -53,13 +38,13 @@ int main(){
     command cmd;
     book phonebook[BOOK_LEN];
 
-    CmdClear(&cmd);
+    cmdClear(&cmd);
     for(int i = 0; i < BOOK_LEN; i++){
-        UnitClear(&phonebook[i]);
+        unitClear(&phonebook[i]);
     }
 
     while(1){
-        switch(GetCmd(&cmd)){
+        switch(getCmd(&cmd)){
             case 'w':{
                 int tmp = atoi(cmd.param1);
                 if(tmp < BOOK_LEN){
@@ -76,11 +61,11 @@ int main(){
             }    
             case 'd':
                 if(atoi(cmd.param1) < BOOK_LEN) 
-                    UnitClear(&phonebook[atoi(cmd.param1)]);
+                    unitClear(&phonebook[atoi(cmd.param1)]);
                 break;
             case 'l':
                 for(int i = 0; i < BOOK_LEN; i++){
-                    PrintUser(phonebook, i);
+                    printUser(phonebook, i);
                 }
                 break;
             case 's':
@@ -92,7 +77,7 @@ int main(){
                             result += *(cmd.param1+j) - *(ptr+j);
                         }
                         if(!result) 
-                            PrintUser(phonebook, i);
+                            printUser(phonebook, i);
                     }
                 }
                 break;
@@ -103,7 +88,7 @@ int main(){
                 printf("help\nw - write [FirstName] [SecondName] [PhoneNumber] ...\nd - delene [ID]\nl - list all\ns - search [param]\nq - quit\n");
                 break;
         }
-        CmdClear(&cmd);
+        cmdClear(&cmd);
     }
     return 0;
 }
