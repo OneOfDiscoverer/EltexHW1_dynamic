@@ -1,3 +1,7 @@
-main: main.c
-		gcc main.c -o main
-main: main.h
+BIN := main
+SOURCES := main.c
+HEADERS := main.h
+
+$(BIN): $(SOURCES)
+		gcc $(SOURCES) -o $(BIN)
+$(BIN): $(HEADERS)

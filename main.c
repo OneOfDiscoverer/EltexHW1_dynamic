@@ -20,7 +20,7 @@ struct command
     char param1[STR_LEN];
     book bk;
 }typedef command;
-
+  
 
 char GetCmd(command* cmd){
     int i = 0;
