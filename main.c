@@ -1,13 +1,7 @@
 #include "main.h"
 
 void printUser(book *pb, int num){
-    printf("ID: %d\nFn: %s \nSn: %s\nPh: %s\nAd: %s\n\n", num, pb[num].firstName, pb[num].secondName, pb[num].phoneNumber, pb[num].address);
-}
-
-void unitClear(book *pb){
-    for(int i = 0; i < sizeof(book); i++){
-        *((char*)pb + i) = 0;
-    }
+    printf("ID: %d\nFn: %s \nSn: %s\nPh: %s\nAd: %s\n\n", num, pb->firstName, pb->secondName, pb->phoneNumber, pb->address);
 }
 
 int checkNum(char* str){
@@ -48,74 +42,63 @@ char getCmd(command* cmd){
 
 int main(){
     command cmd;
-    book phonebook[BOOK_LEN];
-
-    for(int i = 0; i < BOOK_LEN; i++){
-        unitClear(&phonebook[i]);
-    }
+    list* head = 0;
+    int size;
 
     while(1){
-        switch(getCmd(&cmd)){
-            case 'w':
-                if(checkNum(cmd.param1)){
-                    int tmp = atoi(cmd.param1);
-                    if(tmp < BOOK_LEN){
-                        char* ptr_cmd = (char*)&cmd.bk;
-                        char* ptr_book = (char*)&phonebook[tmp];
-                        while(ptr_book < ((char*)&phonebook[tmp] + sizeof(book))){
-                            if(!*ptr_book) 
-                                *ptr_book = *ptr_cmd;
-                            ptr_book++;
-                            ptr_cmd++;
-                        }
+
+        switch (getCmd(&cmd))
+        {
+            case 'w':{
+                list* cur_ptr = head;
+                int cnt = 1;
+                if(!head){
+                    pushObj(&head);
+                    cur_ptr = head;
+                }
+                else {
+                    while(cur_ptr->ptr){
+                        cnt++;
+                        cur_ptr = cur_ptr->ptr;
                     }
-                    else 
-                        printf("out of range\n");
+                    pushObj(&cur_ptr->ptr);
+                    cur_ptr = cur_ptr->ptr;
+                    cur_ptr->id = cnt;
+                }
+                char* ptr_cmd = (char*)&cmd.bk;
+                char* ptr_book = (char*)&cur_ptr->obj;
+                while(ptr_book < ((char*)&cur_ptr->obj + sizeof(book))){
+                    if(!*ptr_book) 
+                        *ptr_book = *ptr_cmd;
+                    ptr_book++;
+                    ptr_cmd++;
                 }
                 break;
-            case 'r':
-                if(checkNum(cmd.param1)){
-                    int tmp = atoi(cmd.param1);
-                    if(tmp < BOOK_LEN)
-                        printUser(phonebook, tmp);
-                    else 
-                        printf("out of range\n");
+            }
+                
+            case 'r':{
+                list* cur_ptr = head; 
+                while(cur_ptr){
+                    printUser(&cur_ptr->obj,cur_ptr->id);
+                    cur_ptr = cur_ptr->ptr;
                 }
                 break;
-            case 'd':
-                if(checkNum(cmd.param1)){
-                    int tmp = atoi(cmd.param1);
-                    if(tmp < BOOK_LEN) 
-                        unitClear(&phonebook[tmp]);
-                }
-                else 
-                    printf("out of range\n");
-                break;
-            case 'l':
-                for(int i = 0; i < BOOK_LEN; i++){
-                    printUser(phonebook, i);
-                }
-                break;
-            case 's':
-                if(*cmd.param1){
-                    for(int i = 0; i < BOOK_LEN; i++){
-                        for(int b = 0; b < sizeof(book)/STR_LEN; b++){
-                            int result = 0;
-                            char* ptr = (char*)&phonebook[i] + STR_LEN*b;
-                            for(int j = 0; j < STR_LEN; j++){
-                                result += *(cmd.param1+j) - *(ptr+j);
-                            }
-                            if(!result)
-                                printUser(phonebook, i);
-                        }
+            }
+
+            case 'd':{
+                list* cur_ptr = head;
+                list* prev_ptr;
+                while(cur_ptr->ptr){
+                        prev_ptr = cur_ptr;
+                        cur_ptr = cur_ptr->ptr;
                     }
-                }
+                popObj(&cur_ptr);
+                prev_ptr->ptr = 0;
                 break;
+            }              
             case 'q':
-                return 0;
-                break;
+                exit(0);
             default:
-                printf("help\nw - write [FirstName] [SecondName] [PhoneNumber] ...\nr - read [ID]\nd - delene [ID]\nl - list all\ns - search [PARAM]\nq - quit\n");
                 break;
         }
     }
