@@ -18,7 +18,6 @@ struct book
 
 struct list
 {
-    int id;
     void *ptr;
     COMMAND_INS;
 }typedef list;
@@ -26,6 +25,7 @@ struct list
 static list* head = 0;
 
 list* getAt(int id);
-void pushBack(void *ptr);
-void popBack(void);
+int pushBack(void *ptr);
+int popBack(void);
+int remove_at(int num);
 #endif

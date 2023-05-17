@@ -10,7 +10,7 @@ list* getAt(int id){
     return tmp;
 }
 
-void pushBack(void *ptr){
+int pushBack(void *ptr){
     list* cur_ptr;
     if(!head){
         head = calloc(1, sizeof(list));
@@ -33,13 +33,15 @@ void pushBack(void *ptr){
     }
 }
 
-void popBack(void){
+int popBack(void){ //удалить метод
     list* cur_ptr = head;
     list* prev_ptr = 0;
+    int cnt = 0;
     if(cur_ptr){
         while(cur_ptr->ptr){
             prev_ptr = cur_ptr;
             cur_ptr = cur_ptr->ptr;
+            cnt++;
         }
         free(cur_ptr);
         if(prev_ptr)
@@ -47,7 +49,30 @@ void popBack(void){
         else 
             head = 0;
     }
-    
+    return cnt;
+}
+
+int remove_at(int num){ //доработать до значения по умолчанию
+    list* cur_ptr = head;
+    list* prev_ptr = 0;
+    if(cur_ptr){
+        for(int i = 0; i < num; i++){
+            if(cur_ptr->ptr == 0) 
+                return 0;
+            prev_ptr = cur_ptr;
+            cur_ptr = cur_ptr->ptr;
+        }
+        if(prev_ptr) 
+            prev_ptr->ptr = cur_ptr->ptr;
+        else{
+            if(head->ptr) 
+                head = head->ptr;
+            else
+                head = 0;    
+        }
+        free(cur_ptr);
+    }
+    return 1;
 }
 
 void add_at(){

@@ -1,7 +1,7 @@
 #include "main.h"
 
 void printUser(book *pb, int num){
-    printf("ID: %d\nFn: %s \nSn: %s\nPh: %s\nAd: %s\n\n", num, pb->firstName, pb->secondName, pb->phoneNumber, pb->address);
+    printf("Number: %d\nFn: %s \nSn: %s\nPh: %s\nAd: %s\n\n", num, pb->firstName, pb->secondName, pb->phoneNumber, pb->address);
 }
 
 int checkNum(char* str){
@@ -52,19 +52,6 @@ int main(){
             case 'r':{
                 int i = 0;
                 list* tmpPtr = getAt(i);
-                while(tmpPtr){
-                    printUser(&tmpPtr->bk, tmpPtr->id);
-                    tmpPtr = getAt(++i);
-                }
-                break;
-            }
-            case 'd':{
-                popBack();
-                break;
-            }
-            case 's':
-                int i = 0;
-                list* tmpPtr = getAt(i);
                 if(*cmd.bk.firstName){
                     while(tmpPtr){
                         for(int b = 0; b < sizeof(tmpPtr->bk)/STR_LEN; b++){
@@ -74,16 +61,31 @@ int main(){
                                 result += *(cmd.bk.firstName+j) - *(ptr+j);
                             }
                             if(!result)
-                                printUser(&tmpPtr->bk, tmpPtr->id);
+                                printUser(&tmpPtr->bk, i);
                         }
                         tmpPtr = getAt(++i);
                     }
                 }
-                break;              
+                else{
+                    while(tmpPtr){
+                        printUser(&tmpPtr->bk, i);
+                        tmpPtr = getAt(++i);
+                    }
+                }
+
+                break;
+            }
+            case 'd':{
+                if(checkNum(cmd.bk.firstName))
+                    remove_at(atoi(cmd.bk.firstName));
+                else 
+                    popBack();
+                break;
+            }          
             case 'q':
                 exit(0);
             default:
-                printf("help\nw - write [FirstName] [SecondName] [PhoneNumber] [Address]\nr - read [ID]\nd - delene [ID]\nl - list all\ns - search [PARAM]\nq - quit\n");
+                printf("help\nw - write [FirstName] [SecondName] [PhoneNumber] [Address]\nr - read option:[search param]\nd - delene [Number]\nq - quit\n");
                 break;
         }
     }
