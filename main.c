@@ -5,7 +5,7 @@ void printUser(book *pb, int num){
 }
 
 int checkNum(char* str){
-    const char *end = str + sizeof(str);
+    const char *end = str + STR_LEN;
     if(!*str) 
         return 0;
     while(str < end){
@@ -52,7 +52,7 @@ int main(){
             case 'r':{
                 int i = 0;
                 list* tmpPtr = getAt(i);
-                if(*cmd.bk.firstName){
+                if(*cmd.bk.firstName){ //search in list
                     while(tmpPtr){
                         for(int b = 0; b < sizeof(tmpPtr->bk)/STR_LEN; b++){
                             int result = 0;
@@ -67,25 +67,27 @@ int main(){
                     }
                 }
                 else{
-                    while(tmpPtr){
+                    while(tmpPtr){ //out all
                         printUser(&tmpPtr->bk, i);
                         tmpPtr = getAt(++i);
                     }
                 }
-
                 break;
             }
             case 'd':{
-                if(checkNum(cmd.bk.firstName))
-                    remove_at(atoi(cmd.bk.firstName));
-                else 
-                    popBack();
+                if(checkNum(cmd.bk.firstName)){
+                    if(remove_at(atoi(cmd.bk.firstName)))
+                        printf("removed %d\n", atoi(cmd.bk.firstName));
+                    else
+                        printf("member %d does not exist\n", atoi(cmd.bk.firstName));
+                }
                 break;
             }          
             case 'q':
+                while(remove_at(0));
                 exit(0);
             default:
-                printf("help\nw - write [FirstName] [SecondName] [PhoneNumber] [Address]\nr - read option:[search param]\nd - delene [Number]\nq - quit\n");
+                printf(HELP_STR);
                 break;
         }
     }

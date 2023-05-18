@@ -25,7 +25,6 @@ struct list
 static list* head = 0;
 
 list* getAt(int id);
-int pushBack(void *ptr);
-int popBack(void);
+void pushBack(void *ptr);
 int remove_at(int num);
 #endif
